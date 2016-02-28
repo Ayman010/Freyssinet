@@ -2,8 +2,6 @@ package com.ayman.android.freyssinet;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -32,8 +31,32 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                webview = (WebView) findViewById(R.id.webView);
+
+                // تمكين جافا سكريبت في صفحة الويب
+                webview.getSettings().setJavaScriptEnabled(true);
+
+                // السماح بالتكبير وتصغير في الصفحة
+                webview.getSettings().setBuiltInZoomControls(true);
+
+                // تصغير صفحة الويب لتناسب شاشة الجوال
+                webview.getSettings().setLoadWithOverviewMode(true);
+                webview.getSettings().setUseWideViewPort(true);
+
+                // فتح صفحة الويب المطلوبة .. اكتب رابط الصفحة التي تريد فتحها بالتطبيق بالاسفل
+                webview.loadUrl("http://outlook.office365.com ");
+
+                // عرض شريط المعالجة والتقدم لصفحة الويب
+                webview.setWebChromeClient(new WebChromeClient() {
+                    public void onProgressChanged(WebView view, int progress) {
+                        setProgress(progress * 100);
+                    }
+                });
+
+                // الاتصال بكلاس InsideWebViewClient
+                webview.setWebViewClient(new InsideWebViewClient());
+
+
             }
         });
 
@@ -124,7 +147,28 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            webview.getSettings().setJavaScriptEnabled(true);
+
+            // السماح بالتكبير وتصغير في الصفحة
+            webview.getSettings().setBuiltInZoomControls(true);
+
+            // تصغير صفحة الويب لتناسب شاشة الجوال
+            webview.getSettings().setLoadWithOverviewMode(true);
+            webview.getSettings().setUseWideViewPort(true);
+
+            // فتح صفحة الويب المطلوبة .. اكتب رابط الصفحة التي تريد فتحها بالتطبيق بالاسفل
+            webview.loadUrl("https://www.google.com.sa/maps/dir/21.5585046,39.1536681/21.5585046,39.1536636/@21.5586168,39.1536253,19.25z/data=!4m2!4m1!3e0");
+
+            // عرض شريط المعالجة والتقدم لصفحة الويب
+            webview.setWebChromeClient(new WebChromeClient() {
+                public void onProgressChanged(WebView view, int progress) {
+                    setProgress(progress * 100);
+                }
+            });
+
+            // الاتصال بكلاس InsideWebViewClient
+            webview.setWebViewClient(new InsideWebViewClient());
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
